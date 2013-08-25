@@ -24,7 +24,9 @@ module YahooStock
     # Send request to the uri and get results
     def get
       begin
-        response = Net::HTTP.get_response(URI.parse(uri))
+        # aslai hack for proxy
+        # response = Net::HTTP.get_response(URI.parse(uri))
+        response = Net::HTTP.get_response(the_uri.host, "#{the_uri.path}?#{the_uri.query}")
       rescue => e
         raise InterfaceError, "#{e.message}\n\n#{e.backtrace}"
       end
