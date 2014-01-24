@@ -34,7 +34,7 @@ module YahooStock
       rescue => e
         raise InterfaceError, "#{e.message}\n\n#{e.backtrace}"
       end
-      response.status[0] == '200' ? response.body : response_error(response)
+      response.status[0] == '200' ? response.read : response_error(response)
 #      response.code == '200' ? response.body : response_error(response)
     end
     
