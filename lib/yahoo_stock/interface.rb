@@ -4,6 +4,8 @@
 
 require 'net/http'
 require 'observer'
+require 'rest-open-uri' #aslai added
+
 module YahooStock
    # ==DESCRIPTION:
    # 
@@ -31,7 +33,8 @@ module YahooStock
       rescue => e
         raise InterfaceError, "#{e.message}\n\n#{e.backtrace}"
       end
-      response.code == '200' ? response.body : response_error(response)
+      response.status[0] == '200' ? response.body : response_error(response)
+#      response.code == '200' ? response.body : response_error(response)
     end
     
     # Generates full url to connect to yahoo
@@ -57,7 +60,8 @@ module YahooStock
     # Generate error for debugging when something goes wrong while sending
     # request to yahoo
     def response_error(response)
-      trace = "Response \n\nbody : #{response.body}\n\ncode: #{response.code}\n\nmessage: #{response.message}"
+#      trace = "Response \n\nbody : #{response.body}\n\ncode: #{response.code}\n\nmessage: #{response.message}"
+      trace = "Response \n\nbody : #{response.body}\n\ncode: #{response.status[0]}\n\nmessage: #{response.message}"
       case @base_url
         when BASE_URLS[:quote]
           raise InterfaceError, "Error :: Could not get stock data \n\n#{trace}"
